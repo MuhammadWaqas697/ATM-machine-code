@@ -60,6 +60,7 @@ if (pinAnswer.pin === myPin ) {     //pinAnswer.pin ki value agar baraber ha myP
         console.log ("Your current balance in insufficient");
       } else {
         myBalance -= fastcashAns.fastcash;
+        console.log("Withdraw Successfully!");
         console.log( "Your remaining balance is:" + myBalance);
       }
     }
@@ -80,6 +81,7 @@ if (pinAnswer.pin === myPin ) {     //pinAnswer.pin ki value agar baraber ha myP
         console.log ("Your current balance is insufficient! " + myBalance);
       } else {
         myBalance -= enterAmountAns.enteramount;
+        console.log("Withdraw Successfully!")
         console.log (" Your current balance is:" + myBalance);
       }
       }
