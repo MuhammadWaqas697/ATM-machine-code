@@ -1,9 +1,9 @@
-#! /usr/bin/env node
+#! /usr/bin/env node 
 
 import inquirer from "inquirer";
 import Choices from "inquirer/lib/objects/choices.js";
 
-let myBalance = 10000;                    //Dollar
+let myBalance = 25000;                    //Dollar
 let myPin = 1234;                           // Yeh ATM pin ha meri
 
 let pinAnswer = await inquirer.prompt(      //Inquirer hamesha question poucvhny k liye use hota ha or await question pouch k user sy input lene k liye wait karta ha let key word ha or lat k bad vaiable ha
@@ -33,29 +33,60 @@ if (pinAnswer.pin === myPin ) {     //pinAnswer.pin ki value agar baraber ha myP
       }
     ]
   )      
-  console.log(operationAnswer)
-
-
-
+  
   if (operationAnswer.operation === "withdraw") {
-   let amountAnswer = await inquirer.prompt(
-    [
-      {
-        name: "amount",
-        type: "number",
-        message: "please enter you amount"
+    let withdrawAmount = await inquirer.prompt(
+      [
+        {
+          name: "withdrawMethod",
+          type: "list",
+          message: "Please select withdraw method",
+          choices: ["fast cash", "Enter your amount"]
+        }
+      ]
+    )
+    if (withdrawAmount.withdrawMethod === "fast cash") {
+      let fastcashAns = await inquirer.prompt (
+        [
+          {
+            name: "fastcash",
+            type: "list",
+            message: "Please select amount",
+            choices: [1000, 3000, 5000, 10000, 20000, 25000]
+          }
+        ]
+      )
+      if (fastcashAns.fastcash > myBalance) {
+        console.log ("Your current balance in insufficient");
+      } else {
+        myBalance -= fastcashAns.fastcash;
+        console.log( "Your remaining balance is:" + myBalance);
       }
-    ]
-   )
+    }
 
-   myBalance -= amountAnswer.amount;
+    else if (withdrawAmount.withdrawMethod === "Enter your amount") {
+      let enterAmountAns = await inquirer.prompt (
+        [
+          {
+            name: "enteramount",
+            type: "number",
+            message: "Please enter you specific amount"
 
-  console.log("Your ramaining balance is: "+ myBalance)
-  } else if (operationAnswer.operation === "check balance") {
-    console.log("Your balance is : " + myBalance)
-  }
 
-
-} else (                            // agar pinAnswer.pin ki value myPin k equal nahi ha tu wrong pin code print kardo.  
+          }
+        ]
+      )
+      if (enterAmountAns.enteramount > myBalance ) {
+        console.log ("Your current balance is insufficient! " + myBalance);
+      } else {
+        myBalance -= enterAmountAns.enteramount;
+        console.log (" Your current balance is:" + myBalance);
+      }
+      }
+    }
+    else if (operationAnswer.operation === "check balance") {
+      console.log("Your current balance is : " + myBalance)
+    }
+  }  else (                            // agar pinAnswer.pin ki value myPin k equal nahi ha tu wrong pin code print kardo.  
   console.log("wrong pin code")
 )
